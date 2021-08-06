@@ -28,7 +28,7 @@ inputs:
 outputs:
   poetry-path:
     description: "Poetry bin directory"
-    value: ${{ steps.poetry-metadata.outputs.os-type }}
+    value: ${{ steps.poetry-installer.outputs.binary }}
 runs:
   using: composite
   steps:
@@ -37,11 +37,4 @@ runs:
         ${{ github.action_path }}/install-poetry-wrapper.sh \
           "${{ runner.os }}" \
           "${{ inputs.poetry-version }}"
-      shell: bash
-    - id: poetry-metadata
-      run: |
-        case "${{ runner.os }}" in
-          win*) echo "::set-output name=bin-dir::$APPDATA/Python/Scripts" ;;
-          *)    echo "::set-output name=bin-dir::$HOME/.local/bin" ;;
-        esac
       shell: bash
