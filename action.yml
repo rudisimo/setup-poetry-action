@@ -34,7 +34,7 @@ runs:
   steps:
     - id: poetry-installer
       run: |
-        ${{ github.action_path }}/scripts/install-poetry-wrapper.sh \
+        ${{ GITHUB_ACTION_PATH }}/scripts/install-poetry-wrapper.sh \
           "${{ runner.os }}" \
           "${{ inputs.poetry-version }}"
       shell: bash
