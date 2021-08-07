@@ -6,13 +6,16 @@ branding:
   icon: "package"
 inputs:
   poetry-version:
-    description: "Poetry version to installs"
+    description: "Poetry version to install"
     required: false
     default: ""
 outputs:
-  poetry-path:
-    description: "Poetry bin directory"
-    value: ${{ steps.poetry-installer.outputs.binary }}
+  poetry-binary:
+    description: "Poetry binary path"
+    value: ${{ steps.poetry-installer.outputs.executable }}
+  poetry-version:
+    description: "Poetry version"
+    value: ${{ steps.poetry-installer.outputs.version }}
 runs:
   using: composite
   steps:

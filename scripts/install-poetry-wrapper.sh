@@ -25,21 +25,14 @@ fi
 
 # Install Poetry
 python "${POETRY_INSTALLER}" ${POETRY_INSTALL_ARGS[@]}
-
-# Configure environment
 case "${POETRY_OS}" in
-    Windows*)
-        POETRY_BIN_DIR="${APPDATA}/Python/Scripts"
-        POETRY_EXECUTABLE="${POETRY_BIN_DIR}/poetry.exe"
-        ;;
-    *)
-        POETRY_BIN_DIR="${HOME}/.local/bin"
-        POETRY_EXECUTABLE="${POETRY_BIN_DIR}/poetry"
-        ;;
+    Windows*) POETRY_BIN_DIR="${APPDATA}/Python/Scripts" ;;
+    *)        POETRY_BIN_DIR="${HOME}/.local/bin" ;;
 esac
 
-echo "::set-output name=bin-dir::${POETRY_BIN_DIR}"
-echo "::set-output name=executable::${POETRY_EXECUTABLE}"
+# Configure exports
+echo "::set-output name=executable::${POETRY_BIN_DIR}/poetry"
+echo "::set-output name=version::$(${POETRY_BIN_DIR}/poetry --version)"
 echo "${POETRY_BIN_DIR}" >> "${GITHUB_PATH}"
 
 exit 0
