@@ -14,17 +14,31 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
           - macos-latest
+          - ubuntu-latest
           - windows-latest
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version:
+          - 3.6
+          - 3.7
+          - 3.8
+          - 3.9
+        poetry-version:
+          - 1.0.9
+          - 1.1.7
+          - preview
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: rudisimo/setup-poetry-action@master
-      - run: poetry --version
+        id: python
+      - uses: rudisimo/setup-poetry-action@v1
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+        id: poetry
+      - run: |
+          echo "Python: v${{ steps.python.outputs.python-version }}"
+          echo "Poetry: v${{ steps.poetry.outputs.poetry-version }}"
         shell: bash
 ```
 
