@@ -10,8 +10,8 @@ inputs:
     required: false
     default: ""
 outputs:
-  poetry-binary:
-    description: "Poetry binary path"
+  poetry-executable:
+    description: "Poetry executable path"
     value: ${{ steps.poetry-installer.outputs.executable }}
   poetry-version:
     description: "Poetry version"
