@@ -30,12 +30,14 @@ fi
 
 # Generate poetry directories
 case "${POETRY_OS}" in
-    Windows*) POETRY_HOME="${APPDATA}\poetry" ;;
-    *)        POETRY_HOME="${HOME}/.local/share/poetry";;
+    Windows*) POETRY_HOME="${APPDATA}\poetry"
+              POETRY_BIN_DIR="${POETRY_HOME}\bin" ;;
+    *)        POETRY_HOME="${HOME}/.local/share/poetry"
+              POETRY_BIN_DIR="${POETRY_HOME}/bin" ;;
 esac
-POETRY_BIN_DIR="${POETRY_HOME}/bin"
 
 # Install Poetry
+echo "Installing Poetry in ${POETRY_HOME} with args ... ${POETRY_INSTALL_ARGS[@]}"
 POETRY_HOME=$POETRY_HOME python "${POETRY_INSTALLER}" ${POETRY_INSTALL_ARGS[@]}
 
 # Configure exports
