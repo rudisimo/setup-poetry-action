@@ -1,6 +1,8 @@
 #!/bin/bash
-
 set -Eeuo pipefail
+
+# Debug
+printenv
 
 # Declare arguments
 POETRY_OS=$1
@@ -10,14 +12,6 @@ POETRY_VERSION=$2
 POETRY_INSTALLER="$(mktemp)"
 trap "rm -f ${POETRY_INSTALLER}" ERR EXIT
 curl -sSL https://install.python-poetry.org --output "${POETRY_INSTALLER}"
-
-# Set poetry home
-case "${POETRY_OS}" in
-    Windows*) POETRY_HOME="${APPDATA}/poetry"
-              POETRY_BIN_DIR="${POETRY_HOME}/venv/Scripts" ;;
-    *)        POETRY_HOME="${HOME}/.local/share/poetry"
-              POETRY_BIN_DIR="${POETRY_HOME}/venv/bin";;
-esac
 
 # Build installer arguments
 POETRY_INSTALL_ARGS=()
@@ -34,9 +28,15 @@ fi
 # Install Poetry
 python "${POETRY_INSTALLER}" ${POETRY_INSTALL_ARGS[@]}
 
+# Locate poetry binary
+POETRY_BINARY=$(command -v poetry)
+# case "${POETRY_OS}" in
+#     Windows*) POETRY_BINARY="${POETRY_HOME}/venv/Scripts" ;;
+#     *)        POETRY_BINARY="${POETRY_HOME}/venv/bin";;
+# esac
+
 # Configure exports
-echo "::set-output name=executable::${POETRY_BIN_DIR}/poetry"
-echo "::set-output name=version::$(${POETRY_BIN_DIR}/poetry --version)"
-echo "${POETRY_BIN_DIR}" >> "${GITHUB_PATH}"
+echo "binary=${POETRY_BINARY}" >> $GITHUB_OUTPUT
+echo "version=$(${POETRY_BINARY} --version)" >> $GITHUB_OUTPUT
 
 exit 0
