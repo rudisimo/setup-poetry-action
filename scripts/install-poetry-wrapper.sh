@@ -3,6 +3,7 @@ set -Eeuo pipefail
 
 # Debug
 printenv
+set -x
 
 # Declare arguments
 POETRY_OS=$1
