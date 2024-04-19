@@ -9,7 +9,15 @@ POETRY_VERSION=$2
 # Download installer script
 POETRY_INSTALLER="$(mktemp)"
 trap "rm -f ${POETRY_INSTALLER}" ERR EXIT
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py --output "${POETRY_INSTALLER}"
+curl -sSL https://install.python-poetry.org --output "${POETRY_INSTALLER}"
+
+# Set poetry home
+case "${POETRY_OS}" in
+    Windows*) POETRY_HOME="${APPDATA}/poetry"
+              POETRY_BIN_DIR="${POETRY_HOME}/venv/Scripts" ;;
+    *)        POETRY_HOME="${HOME}/.local/share/poetry"
+              POETRY_BIN_DIR="${POETRY_HOME}/venv/bin";;
+esac
 
 # Build installer arguments
 POETRY_INSTALL_ARGS=()
@@ -25,10 +33,6 @@ fi
 
 # Install Poetry
 python "${POETRY_INSTALLER}" ${POETRY_INSTALL_ARGS[@]}
-case "${POETRY_OS}" in
-    Windows*) POETRY_BIN_DIR="${APPDATA}/Python/Scripts" ;;
-    *)        POETRY_BIN_DIR="${HOME}/.local/bin" ;;
-esac
 
 # Configure exports
 echo "::set-output name=executable::${POETRY_BIN_DIR}/poetry"
