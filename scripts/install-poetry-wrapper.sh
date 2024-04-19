@@ -27,17 +27,13 @@ if [ -n "${POETRY_VERSION}" ]; then
 fi
 
 # Install Poetry
+export POETRY_HOME="${HOME}/.local/share/poetry"
 python "${POETRY_INSTALLER}" ${POETRY_INSTALL_ARGS[@]}
-
-# Locate poetry binary
-POETRY_BINARY=$(command -v poetry)
-# case "${POETRY_OS}" in
-#     Windows*) POETRY_BINARY="${POETRY_HOME}/venv/Scripts" ;;
-#     *)        POETRY_BINARY="${POETRY_HOME}/venv/bin";;
-# esac
+POETRY_BIN_DIR="${POETRY_HOME}/bin"
 
 # Configure exports
-echo "binary=${POETRY_BINARY}" >> $GITHUB_OUTPUT
-echo "version=$(${POETRY_BINARY} --version)" >> $GITHUB_OUTPUT
+echo "binary=${POETRY_BIN_DIR}/poetry" >> $GITHUB_OUTPUT
+echo "version=$(${POETRY_BIN_DIR}/poetry --version)" >> $GITHUB_OUTPUT
+echo "${POETRY_BIN_DIR}" >> "${GITHUB_PATH}"
 
 exit 0
