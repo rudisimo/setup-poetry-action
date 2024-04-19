@@ -17,7 +17,7 @@ cleanup() {
 trap cleanup ERR
 
 # Generate installer arguments
-POETRY_INSTALL_ARGS=()
+POETRY_INSTALL_ARGS=(-y)
 if [ -n "${POETRY_VERSION}" ]; then
     if [[ "${POETRY_VERSION}" =~ ^preview ]]; then
         POETRY_INSTALL_ARGS+=(--preview)
