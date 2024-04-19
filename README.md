@@ -29,13 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+        id: python
         with:
           python-version: ${{ matrix.python-version }}
-        id: python
-      - uses: rudisimo/setup-poetry-action@v1
+      - uses: rudisimo/setup-poetry-action@master
+        id: poetry
         with:
           poetry-version: ${{ matrix.poetry-version }}
-        id: poetry
       - run: |
           echo "Python: v${{ steps.python.outputs.python-version }}"
           echo "Poetry: v${{ steps.poetry.outputs.poetry-version }}"

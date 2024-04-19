@@ -1,10 +1,6 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-# Debug
-printenv
-set -x
-
 # Declare arguments
 POETRY_OS=$1
 POETRY_VERSION=$2
@@ -13,9 +9,9 @@ POETRY_VERSION=$2
 POETRY_INSTALLER="$(mktemp)"
 curl -sSL https://install.python-poetry.org --output "${POETRY_INSTALLER}"
 
-# Error handling
+# Setup installer error handling
 cleanup() {
-    echo >&2 "ERROR. Checking installer logs..."
+    echo >&2 "Checking installer error logs..."
     cat >&2 poetry-installer-error-* || true
 }
 trap cleanup ERR
