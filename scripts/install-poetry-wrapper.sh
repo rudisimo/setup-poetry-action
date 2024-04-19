@@ -16,7 +16,7 @@ curl -sSL https://install.python-poetry.org --output "${POETRY_INSTALLER}"
 # Error handling
 cleanup() {
     echo >&2 "ERROR. Checking installer logs..."
-    cat >&2 $GITHUB_WORKSPACE/poetry-installer-error-*.log || true
+    cat >&2 poetry-installer-error-* || true
 }
 trap cleanup ERR
 
